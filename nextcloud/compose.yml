@@ -1,0 +1,62 @@
+
+
+services:
+  db:
+    container_name: nextcloud_db
+    image: postgres:alpine
+    restart: always
+    volumes:
+      - ${NEXTCLOUD_APP_DIR}-db:/var/lib/postgresql/data:Z
+    env_file:
+      - .env
+
+  redis:
+    container_name: nextcloud_redis
+    image: redis:alpine
+    restart: always
+
+  app:
+    container_name: nextcloud_app
+    image: nextcloud:fpm-alpine
+    restart: always
+    volumes:
+      - ${NEXTCLOUD_APP_DIR}:/var/www/html:z
+      - ${NEXTCLOUD_DATA_HOST_DIR}:${NEXTCLOUD_DATA_DIR}:z
+      # NOTE: The `volumes` config of the `cron` and `app` containers must match
+    environment:
+      - POSTGRES_HOST=db
+      - REDIS_HOST=redis
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+
+  web:
+    container_name: nextcloud_web
+    build: ./web
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ${NEXTCLOUD_APP_DIR}:/var/www/html:z,ro
+      # NOTE: The `volumes` included here should match those of the `app` container (unless you know what you're doing)
+    depends_on:
+      - app
+    env_file:
+      - .env
+
+  cron:
+    container_name: nextcloud_cron
+    image: nextcloud:fpm-alpine
+    restart: always
+    volumes:
+      - ${NEXTCLOUD_APP_DIR}:/var/www/html:z
+      - ${NEXTCLOUD_DATA_HOST_DIR}:${NEXTCLOUD_DATA_DIR}:z
+      # NOTE: The `volumes` config of the `cron` and `app` containers must match
+    entrypoint: /cron.sh
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
