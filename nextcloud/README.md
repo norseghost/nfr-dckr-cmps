@@ -43,3 +43,10 @@ issues. These issues might well be me holding things wrong, though.
 `NEXTCLOUD_APP_DIR`: directory for NextCloud app files. Mapped to  `${nextcloud-app-container}/var/www/html`.
 
 In addition, a database location is defined. Currently, it is set to `${NEXTCLOUD_APP_DIR}-db`, so it lives next to the application data. Issues were encountered during initialization if I placed it inside the container.
+
+
+## TODO
+
+- set maintenance window to remove the annoying warning
+- transition nginx.conf outside the custom docker build and into a volume
+- maybe do away with the one-folder-for-db one-folder-for-app nonsense
