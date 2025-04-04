@@ -6,15 +6,14 @@ Regain control over your data
 
 ## Goals
 
-- more performant than my experiences with nexcloud-aio by linuxserver.io
-- as bare-bones as possible. no chat, calendar, contacts etc. I need a
-  file sync daemon
+- more performant than my experiences with nextcloud-aio by linuxserver.io
+- as bare-bones as possible. I need a file sync and share service.
 - an app only stack. No reverse proxies here.
 - data storage outside the stack
 
 ## The stack
 
-This is based off the [examples from the nextcloud community image on GitHub](https://github.com/nextcloud/docker/).
+This is based off the [examples from the Nextcloud community image on GitHub](https://github.com/nextcloud/docker/).
 
 - postgres database
 - redis cache
@@ -24,7 +23,7 @@ This is based off the [examples from the nextcloud community image on GitHub](ht
 
 ## Environment variables
 
-The nextcloud docker images support [various environment variables](https://github.com/nextcloud/docker/tree/master?tab=readme-ov-file#auto-configuration-via-environment-variables) that are
+The Nextcloud docker images support [various environment variables](https://github.com/nextcloud/docker/tree/master?tab=readme-ov-file#auto- wconfiguration-via-environment-variables) that are
 passed in to the stack.
 
 This stack will set up and autoinstall from scratch if all variables in
@@ -41,4 +40,4 @@ issues. These issues might well be me holding things wrong, though.
 
 `NEXTCLOUD_APP_DIR`: directory for NextCloud app files. Mapped to  `${nextcloud-app-container}/var/www/html`.
 
-In addition, a database location is defined. Currently, it is set to `${NEXTCLOUD_APP_DIR}-db`, so it lives next to the application data. Issues were encountered if I placed it inside the container.
+In addition, a database location is defined. Currently, it is set to `${NEXTCLOUD_APP_DIR}-db`, so it lives next to the application data. Issues were encountered during initialization if I placed it inside the container.
