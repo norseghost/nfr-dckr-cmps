@@ -29,6 +29,8 @@ passed in to the stack.
 This stack will set up and autoinstall from scratch if all variables in
 the `example.env` are changed to suit.
 
+Also, sending emails from Nextcloud will be configured if the `SMTP` environment variables are set.
+
 ### Extra variables and directories
 
 This stack uses two extra varables:
