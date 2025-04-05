@@ -6,7 +6,7 @@ services:
     image: postgres:alpine
     restart: always
     volumes:
-      - ${NEXTCLOUD_APP_DIR}-db:/var/lib/postgresql/data:Z
+      - ${NEXTCLOUD_STACK_DIR}/db:/var/lib/postgresql/data:Z
     env_file:
       - .env
 
@@ -20,7 +20,7 @@ services:
     image: nextcloud:fpm-alpine
     restart: always
     volumes:
-      - ${NEXTCLOUD_APP_DIR}:/var/www/html:z
+      - ${NEXTCLOUD_STACK_DIR}/app:/var/www/html:z
       - ${NEXTCLOUD_DATA_HOST_DIR}:${NEXTCLOUD_DATA_DIR}:z
       # NOTE: The `volumes` config of the `cron` and `app` containers must match
     environment:
@@ -39,7 +39,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ${NEXTCLOUD_APP_DIR}:/var/www/html:z,ro
+      - ${NEXTCLOUD_STACK_DIR}/app:/var/www/html:z,ro
       # NOTE: The `volumes` included here should match those of the `app` container (unless you know what you're doing)
     depends_on:
       - app
@@ -51,7 +51,7 @@ services:
     image: nextcloud:fpm-alpine
     restart: always
     volumes:
-      - ${NEXTCLOUD_APP_DIR}:/var/www/html:z
+      - ${NEXTCLOUD_STACK_DIR}/app:/var/www/html:z
       - ${NEXTCLOUD_DATA_HOST_DIR}:${NEXTCLOUD_DATA_DIR}:z
       # NOTE: The `volumes` config of the `cron` and `app` containers must match
     entrypoint: /cron.sh
