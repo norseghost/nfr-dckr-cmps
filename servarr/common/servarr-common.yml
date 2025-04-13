@@ -1,0 +1,3 @@
+x-download-volumes &dl-volumes:
+  ${DOWNLOAD_ROOT}:/downloads
+  ${DOWNLOAD_TMP}:/incomplete-downloads
