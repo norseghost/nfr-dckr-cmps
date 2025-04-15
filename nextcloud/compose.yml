@@ -17,12 +17,11 @@ services:
 
   app:
     container_name: nextcloud_app
-    image: nextcloud:fpm-alpine
+    image: lscr.io/linuxserver/nextcloud:latest
     restart: always
     volumes:
       - ${NEXTCLOUD_STACK_DIR}/app:/var/www/html:z
       - ${NEXTCLOUD_DATA_HOST_DIR}:${NEXTCLOUD_DATA_DIR}:z
-      # NOTE: The `volumes` config of the `cron` and `app` containers must match
     environment:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
@@ -32,32 +31,3 @@ services:
       - db
       - redis
 
-  web:
-    container_name: nextcloud_web
-    image: nginx:alpine
-    restart: always
-    ports:
-      - 8080:80
-    volumes:
-      - ${NEXTCLOUD_STACK_DIR}/app:/var/www/html:z,ro
-      - ${NEXTCLOUD_STACK_DIR}/web/nginx.conf:/etc/nginx/nginx.conf
-      # NOTE: The `volumes` included here should match those of the `app` container (unless you know what you're doing)
-    depends_on:
-      - app
-    env_file:
-      - .env
-
-  cron:
-    container_name: nextcloud_cron
-    image: nextcloud:fpm-alpine
-    restart: always
-    volumes:
-      - ${NEXTCLOUD_STACK_DIR}/app:/var/www/html:z
-      - ${NEXTCLOUD_DATA_HOST_DIR}:${NEXTCLOUD_DATA_DIR}:z
-      # NOTE: The `volumes` config of the `cron` and `app` containers must match
-    entrypoint: /cron.sh
-    depends_on:
-      - db
-      - redis
-    env_file:
-      - .env
