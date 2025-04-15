@@ -20,8 +20,8 @@ services:
     image: lscr.io/linuxserver/nextcloud:latest
     restart: always
     volumes:
-      - ${NEXTCLOUD_STACK_DIR}/app:/var/www/html:z
-      - ${NEXTCLOUD_DATA_HOST_DIR}:${NEXTCLOUD_DATA_DIR}:z
+      - ${NEXTCLOUD_STACK_DIR}/app:/config
+      - ${NEXTCLOUD_DATA_HOST_DIR}:/data
     environment:
       - POSTGRES_HOST=db
       - REDIS_HOST=redis
