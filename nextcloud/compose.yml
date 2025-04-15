@@ -30,4 +30,5 @@ services:
     depends_on:
       - db
       - redis
-
+    ports:
+      - 8080:443
