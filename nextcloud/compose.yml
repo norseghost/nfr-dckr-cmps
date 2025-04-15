@@ -1,8 +1,5 @@
-
-
 services:
   db:
-    container_name: nextcloud_db
     image: postgres:alpine
     restart: always
     volumes:
@@ -11,12 +8,10 @@ services:
       - .env
 
   redis:
-    container_name: nextcloud_redis
     image: redis:alpine
     restart: always
 
   app:
-    container_name: nextcloud_app
     image: lscr.io/linuxserver/nextcloud:latest
     restart: always
     volumes:
