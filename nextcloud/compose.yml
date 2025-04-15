@@ -4,6 +4,7 @@ services:
     restart: always
     volumes:
       - ${NEXTCLOUD_STACK_DIR}/db:/var/lib/postgresql/data:Z
+      # TODO: maybe try and make so pgsql also is run by PGID/PUID
     env_file:
       - .env
 
